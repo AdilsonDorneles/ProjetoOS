@@ -79,7 +79,11 @@ public class ClienteDao {
     public void editar(ClienteDto clientedto) {
         conexao = new ModuloConexao().conectorBD();
         String sql = "update tbclientes set nomecli = ?, endcli = ? , fone = ? , email = ? where  idcli = ? ";
-
+        
+        int confirma = JOptionPane.showInternalConfirmDialog(null,"Tem certeza que deseja Editar este Cliente?", "Atenção", JOptionPane.YES_NO_OPTION);
+        if (confirma == JOptionPane.YES_OPTION){
+            
+        
         try {
 
             pst = conexao.prepareStatement(sql);
@@ -96,12 +100,17 @@ public class ClienteDao {
         } catch (Exception erro) {
             JOptionPane.showMessageDialog(null, "ClienteDao Editar " + erro);
         }
-    }
+        }
+}
+    
 
     //Metodo para excluir Clientes.
     public void Excluir(ClienteDto clientedto) {
         conexao = new ModuloConexao().conectorBD();
         String sql = "delete from tbclientes where idcli = ?";
+        
+        int confirma = JOptionPane.showInternalConfirmDialog(null,"Tem certeza que deseja excluir este Cliente?", "Atenção", JOptionPane.YES_NO_OPTION);
+        if (confirma == JOptionPane.YES_OPTION){
 
         try {
             pst = conexao.prepareStatement(sql);
@@ -109,11 +118,13 @@ public class ClienteDao {
             pst.execute();
             pst.close();
             JOptionPane.showMessageDialog(null, "Cliente excluido com sucesso! ");
-
+        
         } catch (Exception erro) {
             JOptionPane.showMessageDialog(null, "ClienteDao Excluir " + erro);
         }
 
     }
-
+    }
 }
+
+

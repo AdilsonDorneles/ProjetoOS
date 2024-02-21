@@ -98,6 +98,11 @@ public class TelaClientes extends javax.swing.JInternalFrame {
 
         jLabel6.setText("* Campos Obrigatórios");
 
+        tblClientes = new javax.swing.JTable(){
+            public boolean isCellEditable(int rowIndex, int colIndex){
+                return false;
+            }
+        };
         tblClientes.setModel(new javax.swing.table.DefaultTableModel(
             new Object [][] {
                 {null, null, null, null},
@@ -109,6 +114,8 @@ public class TelaClientes extends javax.swing.JInternalFrame {
                 "COD:", "NOME:", "ENDEREÇO:", "FONE:","EMAIL"
             }
         ));
+        tblClientes.setFocusable(false);
+        tblClientes.getTableHeader().setReorderingAllowed(false);
         tblClientes.addMouseListener(new java.awt.event.MouseAdapter() {
             public void mouseClicked(java.awt.event.MouseEvent evt) {
                 tblClientesMouseClicked(evt);
@@ -230,14 +237,12 @@ public class TelaClientes extends javax.swing.JInternalFrame {
     private void btnUpdateCliActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_btnUpdateCliActionPerformed
         //Chamando metodo editar.
         editar();
-        //CarregarCampos();
         limparCampos();
     }//GEN-LAST:event_btnUpdateCliActionPerformed
 
     private void btnDeletecliActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_btnDeletecliActionPerformed
         //Chamando metodo excluir.
-        exlcuir();
-       // CarregarCampos();
+        exlcuir();        
         limparCampos();
     }//GEN-LAST:event_btnDeletecliActionPerformed
 
@@ -248,6 +253,8 @@ public class TelaClientes extends javax.swing.JInternalFrame {
     private void tblClientesMouseClicked(java.awt.event.MouseEvent evt) {//GEN-FIRST:event_tblClientesMouseClicked
         // chamando o metodo para carregar os campos.
         CarregarCampos();
+        //A linha linha abaixo desabilita o botão adicionar.
+        btnCreateCli.setEnabled(false);
     }//GEN-LAST:event_tblClientesMouseClicked
 
 
@@ -302,7 +309,7 @@ public class TelaClientes extends javax.swing.JInternalFrame {
         txtNomeCli.requestFocus();
 
         //A linha abaixo reabilita o botão adicionar.
-        //btnCreateCli.setEnabled(true);
+         btnCreateCli.setEnabled(true);
     }
 
     //Metodo para pesquisar Clientes.
@@ -343,8 +350,7 @@ public class TelaClientes extends javax.swing.JInternalFrame {
         txtTelCli.setText(tblClientes.getModel().getValueAt(setar, 3).toString());
         txtEmailCli.setText(tblClientes.getModel().getValueAt(setar, 4).toString());
 
-        //A linha linha abaixo desabilita o botão adicionar.
-        //btnCreateCli.setEnabled(false);
+        
     }
 
     // Metodo para editar clientes.
