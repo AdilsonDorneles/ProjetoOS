@@ -22,7 +22,7 @@ public class ModuloConexao {
             //Estabelecendo a conexao com o banco.
 
             Class.forName(driver);
-            conexao = DriverManager.getConnection(url, user, senha);
+            conexao = DriverManager.getConnection(url, user, senha);            
             return conexao;
 
         } catch (Exception e) {

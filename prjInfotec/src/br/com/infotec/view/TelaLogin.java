@@ -1,5 +1,6 @@
 package br.com.infotec.view;
 
+
 import br.com.infotec.dao.UsuarioDao;
 import br.com.infotec.dto.UsuarioDto;
 import java.awt.Color;
@@ -13,6 +14,7 @@ public class TelaLogin extends javax.swing.JFrame {
      */
     public TelaLogin() {
         initComponents();
+        
 
     }
 
