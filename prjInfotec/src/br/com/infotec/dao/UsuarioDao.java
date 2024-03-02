@@ -8,16 +8,14 @@ import java.sql.*;
 import java.util.ArrayList;
 
 public class UsuarioDao {
-    
+
 //Variaveis globais.
-    
     Connection conexao;
     PreparedStatement pst;
     ResultSet rs;
     ArrayList<UsuarioDto> lista = new ArrayList<>();
-    
-    //Metodo para logar no sistema.
 
+    //Metodo para logar no sistema.
     public ResultSet logar(UsuarioDto usuariodto) {
         conexao = new ModuloConexao().conectorBD();
         String sql = "select * from tbusuarios where login=? and senha =?";
@@ -30,15 +28,15 @@ public class UsuarioDao {
 
             rs = pst.executeQuery();
             return rs;
+           
 
         } catch (SQLException erro) {
             JOptionPane.showInternalMessageDialog(null, "UsuarioDao logar: " + erro);
         }
         return null;
     }
-    
-     //Metodo para cadastrar Usuarios.
 
+    //Metodo para cadastrar Usuarios.
     public void cadastrar(UsuarioDto usuariodto) {
         conexao = new ModuloConexao().conectorBD();
         String sql = "insert into tbusuarios (usuario,fone,login,senha,perfil) values (?,?,?,?,?)";
@@ -51,9 +49,9 @@ public class UsuarioDao {
             pst.setString(3, usuariodto.getLogin());
             pst.setString(4, usuariodto.getSenha());
             pst.setString(5, usuariodto.getPerfil());
-            
-           //Na linha abaixo essa condição me auxilia, se os campos nome e fone não forem preechidos ele nao salva. 
-            if ((usuariodto.getUsuario().isEmpty()) || (usuariodto.getFone().isEmpty())|| (usuariodto.getLogin().isEmpty())|| (usuariodto.getSenha().isEmpty())) {
+
+            //Na linha abaixo essa condição me auxilia, se os campos nome e fone não forem preechidos ele nao salva. 
+            if ((usuariodto.getUsuario().isEmpty()) || (usuariodto.getFone().isEmpty()) || (usuariodto.getLogin().isEmpty()) || (usuariodto.getSenha().isEmpty())) {
                 JOptionPane.showMessageDialog(null, "Preencha todos os Campos, São Obrigatórios ! ");
 
             } else {
@@ -65,16 +63,14 @@ public class UsuarioDao {
                     pst.close();
                 }
             }
-            
 
         } catch (SQLException erro) {
             JOptionPane.showMessageDialog(null, "UsuarioDao Cadastrar: " + erro);
         }
 
     }
-    
-    //Metodo de consultar Usuarios por lista.
 
+    //Metodo de consultar Usuarios por lista.
     public ArrayList<UsuarioDto> consultar() {
         conexao = new ModuloConexao().conectorBD();
         String sql = "select * from tbusuarios";
@@ -103,51 +99,57 @@ public class UsuarioDao {
         return lista;
 
     }
-    
+
     //Metodo para excluir Usuarios.
-    
     public void excluir(UsuarioDto usuariodto) {
         conexao = new ModuloConexao().conectorBD();
         String sql = "delete from tbusuarios where iduser = ?";
 
-        try {
+        int confirma = JOptionPane.showInternalConfirmDialog(null, "Tem certeza que deseja Excluir este Usuário?", "Atenção", JOptionPane.YES_NO_OPTION);
+        if (confirma == JOptionPane.YES_OPTION) {
 
-            pst = conexao.prepareStatement(sql);
-            pst.setInt(1, usuariodto.getIduser());
-            pst.execute();
-            pst.close();
+            try {
 
-            JOptionPane.showMessageDialog(null, "Usuario excluido com sucesso! ");
+                pst = conexao.prepareStatement(sql);
+                pst.setInt(1, usuariodto.getIduser());
+                pst.execute();
+                pst.close();
 
-        } catch (SQLException erro) {
-            JOptionPane.showMessageDialog(null, "UsuarioDao Excluir: " + erro);
+                JOptionPane.showMessageDialog(null, "Usuario excluido com sucesso! ");
+
+            } catch (SQLException erro) {
+                JOptionPane.showMessageDialog(null, "UsuarioDao Excluir: " + erro);
+            }
         }
 
     }
-    
-    //Metodo para alterar Usuarios.
 
+    //Metodo para alterar Usuarios.
     public void alterar(UsuarioDto usuariodto) {
         conexao = new ModuloConexao().conectorBD();
         String sql = "update tbusuarios  set usuario = ?, fone = ?, login = ?, senha = ?, perfil = ? where iduser = ?";
 
-        try {
+        int confirma = JOptionPane.showInternalConfirmDialog(null, "Tem certeza que deseja Editar este Usuário?", "Atenção", JOptionPane.YES_NO_OPTION);
+        if (confirma == JOptionPane.YES_OPTION) {
 
-            pst = conexao.prepareStatement(sql);
+            try {
 
-            pst.setString(1, usuariodto.getUsuario());
-            pst.setString(2, usuariodto.getFone());
-            pst.setString(3, usuariodto.getLogin());
-            pst.setString(4, usuariodto.getSenha());
-            pst.setString(5, usuariodto.getPerfil());
-            pst.setInt(6, usuariodto.getIduser());
-            pst.execute();
-            pst.close();
-            
-             JOptionPane.showMessageDialog(null, "Usuario Alterado com sucesso! ");
+                pst = conexao.prepareStatement(sql);
 
-        } catch (SQLException erro) {
-            JOptionPane.showMessageDialog(null, "UsuarioDao Alterar: " + erro);
+                pst.setString(1, usuariodto.getUsuario());
+                pst.setString(2, usuariodto.getFone());
+                pst.setString(3, usuariodto.getLogin());
+                pst.setString(4, usuariodto.getSenha());
+                pst.setString(5, usuariodto.getPerfil());
+                pst.setInt(6, usuariodto.getIduser());
+                pst.execute();
+                pst.close();
+
+                JOptionPane.showMessageDialog(null, "Usuario Alterado com sucesso! ");
+
+            } catch (SQLException erro) {
+                JOptionPane.showMessageDialog(null, "UsuarioDao Alterar: " + erro);
+            }
         }
     }
 
